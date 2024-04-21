@@ -1,0 +1,86 @@
+name: Autograding Tests
+'on':
+- push
+- workflow_dispatch
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test1
+      id: test1
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: Test1
+        setup-command: make main
+        command: "./main"
+        input: '0'
+        expected-output: 3x^1, 2x^2, 4x^3, 4x^4, 2x^6, 11x^11
+        comparison-method: contains
+        timeout: 10
+        max-score: 20
+    - name: Test2
+      id: test2
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: Test2
+        setup-command: make main
+        command: "./main"
+        input: '1'
+        expected-output: 3x^1, 2x^2, 4x^3, 4x^4, 2x^6, 11x^11
+        comparison-method: contains
+        timeout: 10
+        max-score: 20
+    - name: Test3
+      id: test3
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: Test3
+        setup-command: make main
+        command: "./main"
+        input: '2'
+        expected-output: 6x^1, 4x^2, 2x^3, 8x^4, 4x^6
+        comparison-method: contains
+        timeout: 10
+        max-score: 20
+    - name: Test4
+      id: test4
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: Test4
+        setup-command: make main
+        command: "./main"
+        input: '3'
+        expected-output: 6x^3, 22x^11
+        comparison-method: contains
+        timeout: 10
+        max-score: 20
+    - name: Test5
+      id: test5
+      uses: education/autograding-io-grader@v1
+      with:
+        test-name: Test5
+        setup-command: make main
+        command: "./main"
+        input: '4'
+        expected-output: 6x^1, 4x^2, 5x^3, 8x^4, 4x^6, 11x^11
+        comparison-method: contains
+        timeout: 10
+        max-score: 20
+    - name: Autograding Reporter
+      uses: education/autograding-grading-reporter@v1
+      env:
+        TEST1_RESULTS: "${{steps.test1.outputs.result}}"
+        TEST2_RESULTS: "${{steps.test2.outputs.result}}"
+        TEST3_RESULTS: "${{steps.test3.outputs.result}}"
+        TEST4_RESULTS: "${{steps.test4.outputs.result}}"
+        TEST5_RESULTS: "${{steps.test5.outputs.result}}"
+      with:
+        runners: test1,test2,test3,test4,test5
