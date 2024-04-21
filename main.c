@@ -5,8 +5,7 @@
  *   Nama File           : main.c
  *   Deskripsi           : Membuat fungsi penjumlahan dan sorting polinomial
  */
-#define _CRTDBG_MAP_ALLOC
-#include <crtdbg.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 
