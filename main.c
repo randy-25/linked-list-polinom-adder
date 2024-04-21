@@ -154,14 +154,6 @@ polinomial* add(polinomial* bilangan_1, polinomial *bilangan_2) {
         }
         lastTemp->next = pInsert;
     }
-    free(temp1);
-    free(temp2Head);
-    free(insert_coef);
-    free(insert_power);
-    free(temp1_coef);
-    free(temp1_power);
-    free(temp2_coef);
-    free(temp2_power);
     return sum;
 }
 
